@@ -1,42 +1,65 @@
 fun main() {
 
-        //Intersections
-        //TEST CASE INTERSECTING NODE HAS VALUE OF -500
-
+        val list0 = LinkedList<Int>() // No intersection or circular list
         val list1 = LinkedList<Int>() // List one for intersection
         val list2 = LinkedList<Int>() // List two for intersection
         val list3 =  LinkedList<Int>() // List three for loopDetection
-        val node = Node(-50000) // Test node for intersection, -5000 is the intersected node
+        val node = Node(-50000) // -50000 is the test case for both intersected node && circular node
+        val node1 = Node(-50000) // -50000 is the test case for both intersected node && circular node
 
-        list1.append(1).append(2).append(3).append(4).append(node).append(-1).append(-2)
-        println(list1)
+        //default case no circular or intersection
+        list0.append(11).append(12).append(13).append(14).append(15)
 
+        //test list for intersection
+        list1.append(1).append(2).append(3).append(4).append(node).append(-1).append(-2) //test list for intersection
+
+        //test list for intersection
         list2.append(5).append(6).append(7).append(node)
-        println(list2)
 
-        val intersect = intersection(list1 = list1, list2 = list2)
-        if(intersect.isEmpty()){
-                println("No intersection")
-        }else{
-                println("\nIntersection Found At:\n List 1 index = ${intersect.first()} \n List 2 index = ${intersect.last()} ")
-        }
-      //  println(intersect)
+        //test list for circular
+        list3.append(1).append(2).append(3).append(node1).append(5).append(6).append(node1)
 
+        println("List 0 = $list0")
+        println("List 1 = $list1")
+        println("List 2 = $list2")
+
+        //list 3 display is hard coded in order to save time.
+        println("List 3 = 1 -> 2 -> 3 -> -50000 -> 5 -> 6 -> -50000")
+        println()
+        //println("List 3 = $list0")
+
+        /*
+        Intersections
+        TEST CASE INTERSECTING NODE HAS VALUE OF -50000
+        */
+
+        //intersection test (FALSE)
+        println("Intersection list0 & list1 (INTERSECTION = False)")
+        intersectCheck(list0, list1)
         println()
 
-        list3.append(1).append(2).append(3).append(node).append(5).append(6).append(node)
-        //println(list3)
+        //Intersection test (TRUE)
+        println("Intersection list1 & list2 (Intersection case = True)")
+        intersectCheck(list1, list2)
+        println()
 
-        //Loop Detection
-        val loop = loopDetection(list3)
-       if(loop != null)
-       {
-               println("Circular Node value ${loop.value}")
-       }
+/*
+        Loop Detection
+        TEST CASE LOOP NODE HAS VALUE OF -50000
+*/
+
+        //Circular loop (FALSE)
+        println("Circular list0 (Circular case  = False)")
+        loopCheck(list=list0)
+        println()
+
+        //circular loop (TRUE)
+        println("Circular list3 (Circular case = True)")
+        loopCheck(list=list3)
 
 }
 
-fun intersection(list1:LinkedList<Int>, list2:LinkedList<Int>) : MutableList<Int>{
+fun <T> intersection(list1: LinkedList<T>, list2:LinkedList<T>) : MutableList<Int>{
 
         val LMap = HashMap<Int, Int>()
         var intersectionIndex:MutableList<Int> =  mutableListOf()  // intersect index
@@ -69,7 +92,7 @@ fun intersection(list1:LinkedList<Int>, list2:LinkedList<Int>) : MutableList<Int
         return intersectionIndex
 }
 
-fun loopDetection(list:LinkedList<Int>) : Node<Int>?{
+fun <T> loopDetection(list:LinkedList<T>) : Node<T>?{
 
         val LMap = HashMap<Int, Int>()
 
@@ -80,7 +103,7 @@ fun loopDetection(list:LinkedList<Int>) : Node<Int>?{
                 {
                         null -> LMap[hashCode] = 0
                         else -> {
-                                println("Circular List Found:")
+                                println("Circular List Found!")
                                 println("Node Obj ID $hashCode")
                                 return currentNode
                         }
@@ -91,5 +114,26 @@ fun loopDetection(list:LinkedList<Int>) : Node<Int>?{
 
      println("This is not a Circular List")
         return null
+
+}
+
+fun intersectCheck(list1:LinkedList<Int>, list2:LinkedList<Int>){
+        val intersectBase = intersection(list1 = list1, list2 = list2)
+
+
+        if(intersectBase.isEmpty()){
+                println("No intersection Found")
+        }else{
+                println("Intersection Found At:\n List 1 index = ${intersectBase.first()} \n List 2 index = ${intersectBase.last()} ")
+        }
+
+}
+
+fun loopCheck(list:LinkedList<Int>){
+        val loop = loopDetection(list)
+        if(loop != null)
+        {
+                println("Circular Node value ${loop.value}")
+        }
 
 }
