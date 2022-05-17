@@ -1,4 +1,4 @@
-data class Node<T>(var value: T, var next: Node<T>? = null) {
+data class Node<T>(var value: T, var next: Node<T>? = null, var previous: Node<T>? = null) {
 
     //override tostring method
     override fun toString(): String {

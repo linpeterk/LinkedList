@@ -2,7 +2,9 @@ class LinkedList<T> {
 
      var head: Node<T>? = null
      var tail: Node<T>? = null
+     //val map = LinkedHashMap<Int, Int>()
      var size = 0
+    val list = mutableListOf<Int>()
 
     fun isEmpty(): Boolean {
         return size == 0
@@ -19,12 +21,45 @@ class LinkedList<T> {
 
     //add to front of linked list
     fun push(value: T) : LinkedList<T>{
-        head = Node(value = value, next = head)
+        var new = Node(value = value, next = head)
+        if(head != null){
+            head!!.previous = new
+        }
+        head = new
         if (tail == null) {
             tail = head
+            if(value is Int) {
+                list.add(value)
+            }
         }
+        if(value is Int){
+            if(value < list.last()){
+                list.add(value)
+            }
+        }
+//        if(value < (min?.value)){
+//
+//        }
         size++
         return this
+    }
+
+    fun pop() : LinkedList<T>{
+        if(head?.value is Int){
+            if(head!!.value == list.last()){
+                list.removeLast()
+            }
+        }
+       head = head?.next
+        head?.previous = null
+        size--
+
+        return this
+    }
+
+    fun min(): Int?{
+        return list.last()
+
     }
 
     //tail insertion
@@ -35,14 +70,15 @@ class LinkedList<T> {
             return this
         }
         // 2
-        tail?.next = Node(value = value)
+        var new = Node(value = value, previous = tail)
+        tail?.next = new
 
         // 3
         tail = tail?.next
         size++
         return this
     }
-
+/*
     fun append(node: Node<T>) : LinkedList<T>{
         // 1
         if (isEmpty()) {
@@ -86,5 +122,5 @@ class LinkedList<T> {
         size++
         return newNode
     }
-
+*/
 }

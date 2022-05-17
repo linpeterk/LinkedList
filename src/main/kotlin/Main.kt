@@ -1,5 +1,114 @@
+import java.lang.Math.pow
+
+/*
+
+Weekly Coding Challenge:
+        Pls mention the link to your solution in the comments section not later than Friday morning.
+
+        1) Sum Lists: You have two numbers represented by a linked list, where each node contains a single
+        digit. The digits are stored in reverse order, such that the 1 's digit is at the head of the list. Write a
+        function that adds the two numbers and returns the sum as a linked list.
+
+        EXAMPLE
+        Input: (7-> 1 -> 6) + (5 -> 9 -> 2).That is,617 + 295.
+        Output: 2 -> 1 -> 9. That is, 912.
+
+        FOLLOW UP
+                Suppose the digits are stored in forward order. Repeat the above problem.
+        Input: (6 -> 1 -> 7) + (2 -> 9 -> 5).That is,617 + 295.
+        Output: 9 -> 1 -> 2. That is, 912.
+
+        2) Stack Min: How would you design a stack which, in addition to push and pop, has a function min which returns the minimum element? Push, pop and min should all operate in 0(1) time.
+ */
 fun main() {
 
+
+        val list1 = LinkedList<Int>()
+        val list2 = LinkedList<Int>()
+        list1.push(4).push(6).push(2).push(1)
+        list2.push(1).push(1).push(1)
+        println("Forward link addition e.g")
+        addNumForward(list1, list2)
+
+
+        println()
+        println("Reverse link addition e.g")
+        addNumReverse(list1, list2)
+
+
+        println()
+        println("Stack Min Popping")
+        println(list1)
+        stackMin(list1)
+        list1.pop()
+        println(list1)
+        stackMin(list1)
+        list1.pop()
+        println(list1)
+        stackMin(list1)
+
+
+}
+
+fun stackMin(list: LinkedList<Int>){
+        if(!list.isEmpty()){
+        println("Minimum = ${list.min()}")
+        }else{
+                println("List is empty")
+        }
+}
+
+fun addNumForward(list1: LinkedList<Int>, list2:LinkedList<Int>){
+
+        val sum = linkNumForward(list1) + linkNumForward(list2)
+        println("($list1) + ($list2) = $sum")
+
+        constructLink(sum)
+
+}
+
+fun linkNumForward(list: LinkedList<Int>):Int{
+        var decimal = 0
+        var sum = 0.0
+        var tail = list.tail
+        while(tail!=null){
+                sum += tail.value.toDouble() * pow(10.0, decimal.toDouble())
+                 tail = tail.previous
+                decimal++
+        }
+        return sum.toInt()
+}
+
+
+fun addNumReverse(list1: LinkedList<Int>, list2:LinkedList<Int>){
+        val sum = linkNumReverse(list1) + linkNumReverse(list2)
+        println("($list1) + ($list2) = $sum")
+        constructLink(sum)
+
+}
+
+fun linkNumReverse(list: LinkedList<Int>):Int{
+        var decimal = 0
+        var sum = 0.0
+        var head = list.head
+        while(head!=null){
+                sum += head.value.toDouble() * pow(10.0, decimal.toDouble())
+                head = head.next
+                decimal++
+        }
+        return sum.toInt()
+}
+
+fun constructLink(num:Int){
+      var  list =  LinkedList<Int>()
+        val str = num.toString()
+        str.forEach {
+                list.append(it.digitToInt())
+
+        }
+        println(list)
+}
+/*
         val list0 = LinkedList<Int>() // No intersection or circular list
         val list1 = LinkedList<Int>() // List one for intersection
         val list2 = LinkedList<Int>() // List two for intersection
@@ -56,8 +165,8 @@ fun main() {
         //circular loop (TRUE)
         println("Circular list3 (Circular case = True)")
         loopCheck(list=list3)
+        */
 
-}
 
 fun <T> intersection(list1: LinkedList<T>, list2:LinkedList<T>) : MutableList<Int>{
 
